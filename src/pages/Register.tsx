@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { authToast, handleFirebaseError } from '../services/toast';
 
 interface FormData {
   name: string;
@@ -48,7 +49,7 @@ const validateConfirmPassword = (
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register, currentUser } = useAuth();
+  const { register, loginWithGoogle, currentUser } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -59,6 +60,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -132,6 +134,23 @@ const Register = () => {
       setErrors({ submit: errorMessage });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleRegister = async () => {
+    setIsGoogleLoading(true);
+    setErrors({});
+
+    try {
+      authToast.registering();
+      await loginWithGoogle();
+      authToast.registerSuccess();
+    } catch (error) {
+      console.error('Erro ao criar conta com Google:', error);
+      const message = handleFirebaseError(error);
+      setErrors({ submit: message });
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
@@ -277,6 +296,23 @@ const Register = () => {
                 className="w-full py-4 px-6 rounded-xl text-white font-semibold text-lg transition-all duration-200 transform bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 {isLoading ? 'Criando conta...' : 'Criar Conta'}
+              </button>
+
+              {/* Criar conta com Google */}
+              <button
+                type="button"
+                onClick={handleGoogleRegister}
+                disabled={isGoogleLoading}
+                className={`w-full py-3 px-6 rounded-xl font-semibold text-gray-700 border-2 transition-all duration-200 flex items-center justify-center space-x-2 ${
+                  isGoogleLoading
+                    ? 'bg-gray-100 border-gray-200 cursor-not-allowed'
+                    : 'border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <span>🧁</span>
+                <span>
+                  {isGoogleLoading ? 'Conectando...' : 'Criar conta com Google'}
+                </span>
               </button>
             </form>
             <div className="mt-8 pt-6 border-t border-gray-200 text-center">

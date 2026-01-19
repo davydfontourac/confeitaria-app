@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import Layout from './components/Layout';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
@@ -51,7 +52,17 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/feedback" element={<FeedbackPage />} />
-          <Route path="/admin/feedback" element={<FeedbackAdmin />} />
+
+          <Route
+            path="/admin/feedback"
+            element={
+              <AdminRoute>
+                <Layout>
+                  <FeedbackAdmin />
+                </Layout>
+              </AdminRoute>
+            }
+          />
 
           {/* Rotas protegidas (com layout) */}
           <Route
@@ -107,21 +118,21 @@ function App() {
           <Route
             path="/firestore-test"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Layout>
                   <FirestoreTest />
                 </Layout>
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
           <Route
             path="/firestore-debug"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Layout>
                   <FirestoreDebug />
                 </Layout>
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
         </Routes>

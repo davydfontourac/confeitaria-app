@@ -17,13 +17,14 @@ interface FormErrors {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, currentUser } = useAuth();
+  const { login, loginWithGoogle, currentUser } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   // SEO para a página de Login
   useSEO({
@@ -98,6 +99,23 @@ const Login = () => {
       setErrors({ submit: errorMessage });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    setErrors({});
+
+    try {
+      authToast.loggingIn();
+      await loginWithGoogle();
+      authToast.loginSuccess();
+    } catch (error) {
+      console.error('Erro no login com Google:', error);
+      const errorMessage = handleFirebaseError(error);
+      setErrors({ submit: errorMessage });
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
@@ -235,6 +253,21 @@ const Login = () => {
                     Entrar
                   </span>
                 )}
+              </button>
+
+              {/* Login com Google */}
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                disabled={isGoogleLoading}
+                className={`w-full py-3 px-6 rounded-xl font-semibold text-gray-700 border-2 transition-all duration-200 flex items-center justify-center space-x-2 ${
+                  isGoogleLoading
+                    ? 'bg-gray-100 border-gray-200 cursor-not-allowed'
+                    : 'border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <span>🔒</span>
+                <span>{isGoogleLoading ? 'Conectando...' : 'Entrar com Google'}</span>
               </button>
             </form>
 
