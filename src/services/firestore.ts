@@ -690,24 +690,39 @@ export async function getUserIngredientSuggestions(
     const uid = userId || currentUser?.uid;
     if (!uid) return [];
 
+    // Buscar ingredientes de receitas do usuário. Alguns documentos antigos
+    // podem ter sido salvos com o campo authorId; mantemos um fallback para
+    // não perder sugestões.
     const recipesQuery = query(
       collection(db, 'recipes'),
-      where('authorId', '==', uid)
+      where('userId', '==', uid)
     );
 
-    const querySnapshot = await getDocs(recipesQuery);
     const ingredients = new Set<string>();
 
-    querySnapshot.docs.forEach((doc) => {
-      const data = doc.data();
-      if (data.ingredients && Array.isArray(data.ingredients)) {
-        data.ingredients.forEach((ingredient: { name?: string }) => {
-          if (ingredient.name && ingredient.name.trim()) {
-            ingredients.add(ingredient.name.trim().toLowerCase());
-          }
-        });
-      }
-    });
+    const collectIngredients = (snap: Awaited<ReturnType<typeof getDocs>>) => {
+      snap.docs.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (data.ingredients && Array.isArray(data.ingredients)) {
+          data.ingredients.forEach((ingredient: { name?: string }) => {
+            if (ingredient?.name?.trim()) {
+              ingredients.add(ingredient.name.trim().toLowerCase());
+            }
+          });
+        }
+      });
+    };
+
+    const primarySnapshot = await getDocs(recipesQuery);
+    collectIngredients(primarySnapshot);
+
+    // Fallback para coleções antigas que usavam authorId
+    if (primarySnapshot.empty) {
+      const legacySnapshot = await getDocs(
+        query(collection(db, 'recipes'), where('authorId', '==', uid))
+      );
+      collectIngredients(legacySnapshot);
+    }
 
     // Adicionar ingredientes comuns como fallback
     const commonIngredients = [

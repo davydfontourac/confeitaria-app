@@ -382,8 +382,8 @@ const Dashboard = () => {
               <li>• ✅ Roteamento e layout (Concluído)</li>
               <li>• ✅ Dashboard base (Concluído)</li>
               <li>• ✅ Estrutura Firestore (Concluído)</li>
-              <li>• ⏳ Formulário dinâmico de receitas (Próximo)</li>
-              <li>• ⏳ Sistema de cálculos automáticos</li>
+              <li>• ✅ Formulário dinâmico de receitas (Concluído)</li>
+              <li>• ✅ Sistema de cálculos automáticos (Concluído)</li>
             </ul>
           </div>
         </div>
