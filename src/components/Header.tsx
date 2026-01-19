@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useIsAdmin } from '../hooks/useIsAdmin';
 import { authToast, handleFirebaseError } from '../services/toast';
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
+  const isAdmin = useIsAdmin();
 
   const handleLogout = async () => {
     try {
@@ -43,13 +45,36 @@ const Header = () => {
             >
               Nova Receita
             </Link>
-            <Link
-              to="/firestore-test"
-              className="text-gray-600 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center space-x-1"
-            >
-              <span>🧪</span>
-              <span>Testes</span>
-            </Link>
+
+            {/* Admin Links */}
+            {isAdmin && (
+              <>
+                <Link
+                  to="/firestore-test"
+                  className="text-gray-600 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center space-x-1"
+                  title="Página de testes (apenas admin)"
+                >
+                  <span>🧪</span>
+                  <span>Testes</span>
+                </Link>
+                <Link
+                  to="/firestore-debug"
+                  className="text-gray-600 hover:text-purple-600 font-medium transition-colors duration-200 flex items-center space-x-1"
+                  title="Debug do Firestore (apenas admin)"
+                >
+                  <span>🐛</span>
+                  <span>Debug</span>
+                </Link>
+                <Link
+                  to="/admin/feedback"
+                  className="text-gray-600 hover:text-red-600 font-medium transition-colors duration-200 flex items-center space-x-1"
+                  title="Feedback de usuários (apenas admin)"
+                >
+                  <span>💬</span>
+                  <span>Feedback</span>
+                </Link>
+              </>
+            )}
           </nav>
 
           {/* User Menu */}
