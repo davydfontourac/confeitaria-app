@@ -6,6 +6,7 @@ import { DashboardSkeleton } from '../components/SkeletonLoader';
 import { lazy, Suspense } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useSEO } from '../hooks/useSEO';
+import AdminOnly from '../components/AdminOnly';
 
 // Lazy loading dos componentes pesados
 const Analytics = lazy(() => import('../components/Analytics'));
@@ -365,29 +366,31 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Status do Desenvolvimento */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <div className="flex items-start space-x-3">
-          <div className="text-2xl">🚧</div>
-          <div>
-            <h3 className="text-lg font-semibold text-blue-900 mb-2">
-              Dashboard em Desenvolvimento
-            </h3>
-            <p className="text-blue-700 text-sm mb-4">
-              Estamos seguindo o cronograma de desenvolvimento. Próximas
-              funcionalidades:
-            </p>
-            <ul className="text-blue-700 text-sm space-y-1">
-              <li>• ✅ Sistema de autenticação (Concluído)</li>
-              <li>• ✅ Roteamento e layout (Concluído)</li>
-              <li>• ✅ Dashboard base (Concluído)</li>
-              <li>• ✅ Estrutura Firestore (Concluído)</li>
-              <li>• ✅ Formulário dinâmico de receitas (Concluído)</li>
-              <li>• ✅ Sistema de cálculos automáticos (Concluído)</li>
-            </ul>
+      {/* Status do Desenvolvimento - Apenas para Admin */}
+      <AdminOnly>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <div className="flex items-start space-x-3">
+            <div className="text-2xl">🚧</div>
+            <div>
+              <h3 className="text-lg font-semibold text-blue-900 mb-2">
+                Dashboard em Desenvolvimento
+              </h3>
+              <p className="text-blue-700 text-sm mb-4">
+                Estamos seguindo o cronograma de desenvolvimento. Próximas
+                funcionalidades:
+              </p>
+              <ul className="text-blue-700 text-sm space-y-1">
+                <li>• ✅ Sistema de autenticação (Concluído)</li>
+                <li>• ✅ Roteamento e layout (Concluído)</li>
+                <li>• ✅ Dashboard base (Concluído)</li>
+                <li>• ✅ Estrutura Firestore (Concluído)</li>
+                <li>• ✅ Formulário dinâmico de receitas (Concluído)</li>
+                <li>• ✅ Sistema de cálculos automáticos (Concluído)</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      </AdminOnly>
     </div>
   );
 };
