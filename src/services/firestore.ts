@@ -702,7 +702,7 @@ export async function getUserIngredientSuggestions(
 
     const collectIngredients = (snap: Awaited<ReturnType<typeof getDocs>>) => {
       snap.docs.forEach((docSnap) => {
-        const data = docSnap.data();
+        const data = docSnap.data() as { ingredients?: Array<{ name?: string }> };
         if (data.ingredients && Array.isArray(data.ingredients)) {
           data.ingredients.forEach((ingredient: { name?: string }) => {
             if (ingredient?.name?.trim()) {
