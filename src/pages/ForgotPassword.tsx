@@ -83,24 +83,24 @@ const ForgotPassword = () => {
 
   if (isEmailSent) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-blue-50 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
             {/* Header com gradiente */}
-            <div className="bg-gradient-to-r from-pink-500 to-blue-600 px-8 py-12 text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-lg">
-                <span className="text-4xl">📧</span>
+            <div className="bg-gradient-to-r from-blue-700 to-indigo-900 px-12 py-16 text-center">
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full mb-8 shadow-2xl">
+                <span className="text-5xl"></span>
               </div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-4xl font-bold text-white mb-2">
                 Email Enviado!
               </h1>
-              <p className="text-pink-100 text-lg">
+              <p className="text-blue-100 text-lg">
                 Verifique sua caixa de entrada
               </p>
             </div>
 
             {/* Conteúdo */}
-            <div className="px-8 py-8">
+            <div className="px-12 py-12">
               <div className="space-y-6 text-center">
                 <div className="space-y-4 text-gray-600">
                   <p className="text-lg">
@@ -118,7 +118,7 @@ const ForgotPassword = () => {
                 <div className="space-y-4 pt-6">
                   <button
                     onClick={() => setIsEmailSent(false)}
-                    className="w-full py-3 px-6 border-2 border-gray-300 rounded-xl text-gray-700 font-semibold hover:border-blue-500 hover:text-blue-600 transition-all duration-200 hover:bg-blue-50"
+                    className="w-full py-3 px-6 border-2 border-gray-300 rounded-xl text-gray-700 font-semibold hover:border-blue-600 hover:text-blue-700 transition-all duration-200 hover:bg-blue-50"
                   >
                     <span className="mr-2">🔄</span>
                     Enviar novamente
@@ -126,7 +126,7 @@ const ForgotPassword = () => {
 
                   <Link
                     to="/login"
-                    className="inline-flex items-center justify-center w-full py-4 px-6 bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700 text-white rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-700 to-indigo-900 hover:from-blue-800 hover:to-indigo-950 text-white rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
                   >
                     <span className="mr-2">←</span>
                     Voltar ao login
@@ -141,26 +141,50 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-blue-50 flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md mx-auto">
-        {/* Container principal */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          {/* Header com gradiente */}
-          <div className="bg-gradient-to-r from-pink-500 to-blue-600 px-8 py-12 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-lg">
-              <span className="text-4xl">🔑</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-6xl mx-auto">
+        {/* Container principal em grid */}
+        <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden grid lg:grid-cols-2 gap-0">
+          {/* Coluna Esquerda - Branding */}
+          <div className="bg-gradient-to-br from-blue-700 to-indigo-900 px-12 py-16 flex flex-col justify-center items-center text-center lg:min-h-[600px] relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            <div className="relative z-10">
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full mb-8 shadow-2xl">
+                <span className="text-5xl">🔑</span>
+              </div>
+              <h1 className="text-4xl font-bold text-white mb-4">
+                Recuperar Senha
+              </h1>
+              <p className="text-blue-100 text-xl mb-8 max-w-md">
+                Digite seu email para receber o link de recuperação
+              </p>
+              <div className="space-y-4 text-left max-w-sm mx-auto">
+                <div className="flex items-center text-white/90">
+                  <span className="text-2xl mr-3">✉️</span>
+                  <span>Email seguro em segundos</span>
+                </div>
+                <div className="flex items-center text-white/90">
+                  <span className="text-2xl mr-3">🔐</span>
+                  <span>Redefina sua senha com segurança</span>
+                </div>
+                <div className="flex items-center text-white/90">
+                  <span className="text-2xl mr-3">⏱️</span>
+                  <span>Link válido por 1 hora</span>
+                </div>
+              </div>
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              Recuperar Senha
-            </h1>
-            <p className="text-pink-100 text-lg">
-              Digite seu email para receber o link
-            </p>
           </div>
 
-          {/* Formulário */}
-          <div className="px-8 py-8">
-            <form className="space-y-6" onSubmit={handleSubmit}>
+          {/* Coluna Direita - Formulário */}
+          <div className="px-12 py-16 flex flex-col justify-center">
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                Recupere sua senha
+              </h2>
+              <p className="text-gray-600">Digite seu email abaixo</p>
+            </div>
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
               {/* Email */}
               <div>
                 <label
@@ -207,20 +231,20 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full py-4 px-6 rounded-xl text-white font-semibold text-lg transition-all duration-200 transform ${
+                className={`w-full py-3 px-6 rounded-xl text-white font-semibold text-base transition-all duration-200 transform ${
                   isLoading
                     ? 'bg-gray-400 cursor-not-allowed scale-95'
-                    : 'bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700 hover:scale-105 shadow-lg hover:shadow-xl'
+                    : 'bg-gradient-to-r from-blue-700 to-indigo-900 hover:from-blue-800 hover:to-indigo-950 hover:scale-[1.02] shadow-lg hover:shadow-xl'
                 }`}
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
                     Enviando...
                   </div>
                 ) : (
                   <span className="flex items-center justify-center">
-                    <span className="mr-2">📧</span>
+                    <span className="mr-2"></span>
                     Enviar Link de Recuperação
                   </span>
                 )}
@@ -240,10 +264,10 @@ const ForgotPassword = () => {
               </div>
 
               <div className="text-center">
-                <p className="text-gray-600 mb-4">Não tem uma conta?</p>
+                <p className="text-gray-600 mb-3">Não tem uma conta?</p>
                 <Link
                   to="/register"
-                  className="inline-flex items-center justify-center w-full py-3 px-6 border-2 border-gray-300 rounded-xl text-gray-700 font-semibold hover:border-blue-500 hover:text-blue-600 transition-all duration-200 hover:bg-blue-50"
+                  className="inline-flex items-center justify-center px-6 py-2 border-2 border-gray-300 rounded-xl text-gray-700 font-semibold hover:border-blue-600 hover:text-blue-700 transition-all duration-200 hover:bg-blue-50"
                 >
                   <span className="mr-2">👤</span>
                   Criar conta gratuita

@@ -34,7 +34,7 @@ const FirestoreDebug = () => {
       // 2. Verificar estado da autenticação
       if (currentUser) {
         addLog(`✅ Usuário autenticado: ${currentUser.uid}`);
-        addLog(`📧 Email: ${currentUser.email}`);
+        addLog(` Email: ${currentUser.email}`);
         addLog(`👤 Nome: ${currentUser.displayName || 'Não definido'}`);
         addLog(
           `✉️ Email verificado: ${currentUser.emailVerified ? 'Sim' : 'Não'}`
@@ -155,9 +155,7 @@ const FirestoreDebug = () => {
               disabled={isLoading}
               className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading
-                ? '⏳ Executando testes...'
-                : '🚀 Executar Diagnóstico'}
+              {isLoading ? '⏳ Executando testes...' : ' Executar Diagnóstico'}
             </button>
           </div>
 

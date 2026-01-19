@@ -61,14 +61,14 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
+    <div className="bg-white min-h-screen">
       {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">
           Bem-vindo,{' '}
           {userProfile?.displayName || currentUser?.displayName || 'Chef'}! 👋
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-lg">
           Gerencie suas receitas e calcule preços de forma inteligente.
         </p>
       </div>
@@ -77,21 +77,21 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Link
           to="/nova-receita"
-          className="bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700 text-white p-6 rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105"
+          className="bg-gradient-to-r from-blue-700 to-indigo-900 hover:from-blue-800 hover:to-indigo-950 text-white p-6 rounded-xl shadow-sm transition-all duration-200 transform hover:scale-105"
         >
           <div className="text-3xl mb-3">➕</div>
           <h3 className="text-lg font-semibold mb-2">Nova Receita</h3>
-          <p className="text-pink-100 text-sm">
+          <p className="text-blue-100 text-sm">
             Crie uma nova receita e calcule automaticamente os custos
           </p>
         </Link>
 
         <Link
           to="/minhas-receitas"
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow group"
+          className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-105 transition-all duration-200 group"
         >
           <div className="text-3xl mb-3">📋</div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
             Minhas Receitas
           </h3>
           <p className="text-gray-600 text-sm">
@@ -104,16 +104,16 @@ const Dashboard = () => {
             setShowAnalytics(!showAnalytics);
             setShowBackup(false);
           }}
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow group text-left w-full"
+          className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-105 transition-all duration-200 group text-left w-full"
         >
           <div className="text-3xl mb-3">📊</div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
             Analytics
           </h3>
           <p className="text-gray-600 text-sm mb-3">
             Análise de custos e lucratividade
           </p>
-          <span className="text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded">
+          <span className="text-xs text-blue-700 bg-blue-100 px-2 py-1 rounded">
             {showAnalytics ? 'Ocultar' : 'Ver'} gráficos
           </span>
         </button>
@@ -123,92 +123,20 @@ const Dashboard = () => {
             setShowBackup(!showBackup);
             setShowAnalytics(false);
           }}
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow group text-left w-full"
+          className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-105 transition-all duration-200 group text-left w-full"
         >
           <div className="text-3xl mb-3">💾</div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
             Backup
           </h3>
           <p className="text-gray-600 text-sm mb-3">
             Exportar e importar receitas
           </p>
-          <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">
+          <span className="text-xs text-blue-700 bg-blue-100 px-2 py-1 rounded">
             {showBackup ? 'Ocultar' : 'Ver'} opções
           </span>
         </button>
       </div>
-
-      {/* Estatísticas */}
-      {error ? (
-        <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-700">Erro ao carregar estatísticas: {error}</p>
-          <button
-            onClick={loadDashboardData}
-            className="mt-2 text-red-600 hover:text-red-800 font-medium"
-          >
-            Tentar novamente
-          </button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover-lift animate-fade-in stagger-item">
-            <div className="flex items-center">
-              <div className="text-2xl mr-3 transition-transform-smooth hover:scale-110">
-                📄
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Total de Receitas</p>
-                <p className="text-2xl font-bold text-gray-900 transition-colors-smooth">
-                  {stats?.totalRecipes || 0}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="text-2xl mr-3">💰</div>
-              <div>
-                <p className="text-sm text-gray-600">Receita + Lucrativa</p>
-                <p className="text-2xl font-bold text-green-600">
-                  {stats?.mostProfitableRecipe
-                    ? `R$ ${stats.mostProfitableRecipe.profit.toFixed(2)}`
-                    : 'R$ 0,00'}
-                </p>
-                {stats?.mostProfitableRecipe && (
-                  <p className="text-xs text-gray-500 truncate">
-                    {stats.mostProfitableRecipe.title}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="text-2xl mr-3">💡</div>
-              <div>
-                <p className="text-sm text-gray-600">Custo Médio</p>
-                <p className="text-2xl font-bold text-blue-600">
-                  R$ {stats?.averageCost.toFixed(2) || '0,00'}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="text-2xl mr-3">📈</div>
-              <div>
-                <p className="text-sm text-gray-600">Margem Média</p>
-                <p className="text-2xl font-bold text-purple-600">
-                  {stats?.averageMargin.toFixed(1) || '0'}%
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Analytics */}
       {showAnalytics && (
@@ -264,8 +192,80 @@ const Dashboard = () => {
         </div>
       )}
 
+      {/* Estatísticas (agora no final) */}
+      {error ? (
+        <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-red-700">Erro ao carregar estatísticas: {error}</p>
+          <button
+            onClick={loadDashboardData}
+            className="mt-2 text-red-600 hover:text-red-800 font-medium"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover-lift animate-fade-in stagger-item">
+            <div className="flex items-center">
+              <div className="text-2xl mr-3 transition-transform-smooth hover:scale-110">
+                📄
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Total de Receitas</p>
+                <p className="text-2xl font-bold text-gray-900 transition-colors-smooth">
+                  {stats?.totalRecipes || 0}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="text-2xl mr-3">💰</div>
+              <div>
+                <p className="text-sm text-gray-600">Receita + Lucrativa</p>
+                <p className="text-2xl font-bold text-green-600">
+                  {stats?.mostProfitableRecipe
+                    ? `R$ ${stats.mostProfitableRecipe.profit.toFixed(2)}`
+                    : 'R$ 0,00'}
+                </p>
+                {stats?.mostProfitableRecipe && (
+                  <p className="text-xs text-gray-500 truncate">
+                    {stats.mostProfitableRecipe.title}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="text-2xl mr-3">💡</div>
+              <div>
+                <p className="text-sm text-gray-600">Custo Médio</p>
+                <p className="text-2xl font-bold text-blue-600">
+                  R$ {stats?.averageCost.toFixed(2) || '0,00'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="text-2xl mr-3">📈</div>
+              <div>
+                <p className="text-sm text-gray-600">Margem Média</p>
+                <p className="text-2xl font-bold text-blue-700">
+                  {stats?.averageMargin.toFixed(1) || '0'}%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Receitas Recentes */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900">
@@ -274,7 +274,7 @@ const Dashboard = () => {
             {stats && stats.totalRecipes > 0 && (
               <button
                 onClick={loadDashboardData}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-blue-700 hover:text-blue-900 text-sm font-medium"
               >
                 🔄 Atualizar
               </button>
@@ -305,7 +305,7 @@ const Dashboard = () => {
                   className="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-700 to-indigo-900 rounded-lg flex items-center justify-center text-white font-bold text-lg">
                       {recipe.title.charAt(0).toUpperCase()}
                     </div>
                     <div>
@@ -356,7 +356,7 @@ const Dashboard = () => {
               </p>
               <Link
                 to="/nova-receita"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
+                className="inline-flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition-colors duration-200"
               >
                 <span className="mr-2">➕</span>
                 Criar primeira receita

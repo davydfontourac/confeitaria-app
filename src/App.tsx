@@ -12,6 +12,7 @@ import NovaReceita from './pages/NovaReceita.tsx';
 import MinhasReceitas from './pages/MinhasReceitas.tsx';
 import VisualizarReceita from './pages/VisualizarReceita.tsx';
 import EditarReceita from './pages/EditarReceita.tsx';
+import Funcionarios from './pages/Funcionarios.tsx';
 import FirestoreTest from './pages/FirestoreTest.tsx';
 import FirestoreDebug from './pages/FirestoreDebug.tsx';
 import FeedbackPage from './pages/FeedbackPage.tsx';
@@ -112,6 +113,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <EditarReceita />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/funcionarios"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Funcionarios />
                 </Layout>
               </ProtectedRoute>
             }

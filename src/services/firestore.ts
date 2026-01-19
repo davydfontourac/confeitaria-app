@@ -21,6 +21,8 @@ import type {
   RecipeFormData,
   DashboardStats,
   ValidationResult,
+  Employee,
+  EmployeeFormData,
 } from '../types/firestore';
 
 // ========== FUNÇÕES DE USUÁRIO ==========
@@ -186,6 +188,9 @@ export async function createRecipe(
         updatedAt: new Date(),
         isActive: true,
         isFavorite: false,
+        assignedEmployeeId: recipeData.assignedEmployeeId,
+        assignedEmployeeName: recipeData.assignedEmployeeName,
+        assignedEmployeeHourlyRate: recipeData.assignedEmployeeHourlyRate,
       };
 
       const docRef = await addDoc(collection(db, 'recipes'), {
@@ -702,7 +707,9 @@ export async function getUserIngredientSuggestions(
 
     const collectIngredients = (snap: Awaited<ReturnType<typeof getDocs>>) => {
       snap.docs.forEach((docSnap) => {
-        const data = docSnap.data() as { ingredients?: Array<{ name?: string }> };
+        const data = docSnap.data() as {
+          ingredients?: Array<{ name?: string }>;
+        };
         if (data.ingredients && Array.isArray(data.ingredients)) {
           data.ingredients.forEach((ingredient: { name?: string }) => {
             if (ingredient?.name?.trim()) {
@@ -766,4 +773,126 @@ export async function getUserIngredientSuggestions(
     console.error('Erro ao buscar sugestões de ingredientes:', error);
     return [];
   }
+}
+
+// ========== FUNÇÕES DE FUNCIONÁRIOS ==========
+
+const calculateEmployeeHourlyRate = (
+  monthlySalary: number,
+  monthlyHours: number
+): number => {
+  if (!monthlySalary || !monthlyHours || monthlyHours <= 0) {
+    return 0;
+  }
+
+  return Number((monthlySalary / monthlyHours).toFixed(2));
+};
+
+export async function createEmployee(data: EmployeeFormData): Promise<string> {
+  if (!auth.currentUser) {
+    throw new Error('Usuário não autenticado');
+  }
+
+  return withFirestoreErrorHandling(
+    async () => {
+      const hourlyRate = calculateEmployeeHourlyRate(
+        data.monthlySalary,
+        data.monthlyHours
+      );
+
+      const docRef = await addDoc(collection(db, 'employees'), {
+        ...data,
+        userId: auth.currentUser!.uid,
+        hourlyRate,
+        active: data.active ?? true,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+
+      return docRef.id;
+    },
+    { action: 'criar funcionário' }
+  );
+}
+
+export async function getEmployees(limitCount = 100): Promise<Employee[]> {
+  if (!auth.currentUser) {
+    throw new Error('Usuário não autenticado');
+  }
+
+  return withFirestoreErrorHandling(
+    async () => {
+      const employeesQuery = query(
+        collection(db, 'employees'),
+        where('userId', '==', auth.currentUser!.uid),
+        limit(limitCount)
+      );
+
+      const snapshot = await getDocs(employeesQuery);
+
+      const employees: Employee[] = snapshot.docs.map((docSnap) => {
+        const data = docSnap.data();
+        return {
+          id: docSnap.id,
+          ...data,
+          hourlyRate:
+            data.hourlyRate ??
+            calculateEmployeeHourlyRate(data.monthlySalary, data.monthlyHours),
+          createdAt: data.createdAt?.toDate() || new Date(),
+          updatedAt: data.updatedAt?.toDate() || new Date(),
+        } as Employee;
+      });
+
+      return employees.sort(
+        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+      );
+    },
+    { action: 'buscar funcionários' }
+  );
+}
+
+export async function updateEmployee(
+  employeeId: string,
+  updates: Partial<EmployeeFormData>
+): Promise<void> {
+  if (!auth.currentUser) {
+    throw new Error('Usuário não autenticado');
+  }
+
+  return withFirestoreErrorHandling(
+    async () => {
+      const employeeRef = doc(db, 'employees', employeeId);
+
+      const computedHourlyRate =
+        updates.monthlySalary && updates.monthlyHours
+          ? calculateEmployeeHourlyRate(
+              updates.monthlySalary,
+              updates.monthlyHours
+            )
+          : undefined;
+
+      await updateDoc(employeeRef, {
+        ...updates,
+        ...(computedHourlyRate !== undefined
+          ? { hourlyRate: computedHourlyRate }
+          : {}),
+        updatedAt: serverTimestamp(),
+      });
+    },
+    { action: 'atualizar funcionário', employeeId }
+  );
+}
+
+export async function deleteEmployee(employeeId: string): Promise<void> {
+  if (!auth.currentUser) {
+    throw new Error('Usuário não autenticado');
+  }
+
+  return withFirestoreErrorHandling(
+    async () => {
+      const employeeRef = doc(db, 'employees', employeeId);
+      await deleteDoc(employeeRef);
+    },
+    { action: 'excluir funcionário', employeeId }
+  );
 }

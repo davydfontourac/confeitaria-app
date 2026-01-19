@@ -100,9 +100,9 @@ const VisualizarReceita = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700 mx-auto mb-4"></div>
           <p className="text-gray-500">Carregando receita...</p>
         </div>
       </div>
@@ -111,7 +111,7 @@ const VisualizarReceita = () => {
 
   if (error || !recipe) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-400 text-6xl mb-4">❌</div>
           <p className="text-red-600 mb-4">
@@ -119,7 +119,7 @@ const VisualizarReceita = () => {
           </p>
           <Link
             to="/minhas-receitas"
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
             ← Voltar às receitas
           </Link>
@@ -129,14 +129,14 @@ const VisualizarReceita = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header com ações */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link
               to="/minhas-receitas"
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+              className="flex items-center text-gray-600 hover:text-blue-700 transition-colors group"
             >
               ← Voltar às receitas
             </Link>
@@ -144,7 +144,7 @@ const VisualizarReceita = () => {
             <div className="flex space-x-2">
               <Link
                 to={`/receita/${id}/editar`}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors"
               >
                 ✏️ Editar
               </Link>
@@ -245,9 +245,9 @@ const VisualizarReceita = () => {
             {recipe.ingredients.map((ingredient, index) => (
               <div
                 key={ingredient.id}
-                className="flex items-center p-4 bg-gray-50 rounded-lg"
+                className="flex items-center p-4 bg-gray-50 rounded-xl"
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-700 to-indigo-900 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4">
                   {index + 1}
                 </div>
                 <div className="flex-1">
@@ -291,7 +291,7 @@ const VisualizarReceita = () => {
           <ol className="space-y-6">
             {recipe.instructions.map((instruction, index) => (
               <li key={index} className="flex">
-                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 flex-shrink-0 mt-1">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-700 to-indigo-900 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 flex-shrink-0 mt-1">
                   {index + 1}
                 </div>
                 <div className="flex-1">
@@ -358,10 +358,10 @@ const VisualizarReceita = () => {
               <div className="space-y-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">
+                    <div className="text-2xl font-bold text-blue-700">
                       R$ {recipe.pricing.suggestedPrice.toFixed(2)}
                     </div>
-                    <div className="text-sm text-blue-700">Preço Sugerido</div>
+                    <div className="text-sm text-blue-800">Preço Sugerido</div>
                   </div>
                 </div>
 
@@ -376,12 +376,12 @@ const VisualizarReceita = () => {
                   </div>
                 </div>
 
-                <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="bg-blue-50 p-4 rounded-lg">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">
+                    <div className="text-2xl font-bold text-blue-700">
                       {recipe.pricing.profitMargin.toFixed(1)}%
                     </div>
-                    <div className="text-sm text-purple-700">
+                    <div className="text-sm text-blue-800">
                       Margem de Lucro
                     </div>
                   </div>

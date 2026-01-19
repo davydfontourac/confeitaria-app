@@ -76,6 +76,28 @@ service cloud.firestore {
         && request.auth.uid == resource.data.userId;
     }
     
+    // ========== REGRAS PARA FUNCIONÁRIOS ==========
+    match /employees/{employeeId} {
+      // Leitura apenas dos próprios funcionários
+      allow read: if request.auth != null 
+        && request.auth.uid == resource.data.userId;
+      
+      // Criação com validação
+      allow create: if request.auth != null 
+        && request.auth.uid == request.resource.data.userId
+        && validateEmployee(request.resource.data);
+      
+      // Atualização apenas pelo dono
+      allow update: if request.auth != null 
+        && request.auth.uid == resource.data.userId
+        && request.auth.uid == request.resource.data.userId
+        && validateEmployeeUpdate(request.resource.data);
+      
+      // Deleção apenas pelo dono
+      allow delete: if request.auth != null 
+        && request.auth.uid == resource.data.userId;
+    }
+    
     // ========== FUNÇÕES DE VALIDAÇÃO ==========
     
     // Validar perfil do usuário na criação
@@ -242,6 +264,38 @@ service cloud.firestore {
     // Validar quotas de rascunhos (máximo 50 por usuário)
     function validateDraftQuotas(userId) {
       return true; // Por enquanto, permitir sem limite específico
+    }
+    
+    // Validar funcionário
+    function validateEmployee(data) {
+      return data.keys().hasAll(['userId', 'name', 'monthlySalary', 'monthlyHours', 'hourlyRate', 'active'])
+        && data.userId is string
+        && data.userId == request.auth.uid
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && data.monthlySalary is number
+        && data.monthlySalary >= 0
+        && data.monthlyHours is number
+        && data.monthlyHours > 0
+        && data.hourlyRate is number
+        && data.hourlyRate >= 0
+        && data.active is bool;
+    }
+    
+    // Validar atualização de funcionário
+    function validateEmployeeUpdate(data) {
+      return data.userId == request.auth.uid
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && data.monthlySalary is number
+        && data.monthlySalary >= 0
+        && data.monthlyHours is number
+        && data.monthlyHours > 0
+        && data.hourlyRate is number
+        && data.hourlyRate >= 0
+        && data.active is bool;
     }
     
     // ========== REGRAS PARA OPERAÇÕES DE ADMIN ==========

@@ -277,7 +277,7 @@ const FeedbackAdmin: React.FC = () => {
                         href={`mailto:${feedback.email}`}
                         className="text-sm text-indigo-600 hover:text-indigo-800"
                       >
-                        📧 {feedback.email}
+                        {feedback.email}
                       </a>
                     )}
                   </div>

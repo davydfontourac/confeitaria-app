@@ -22,6 +22,30 @@ export interface UserProfile {
   };
 }
 
+// ========== TIPOS DE FUNCIONÁRIOS ==========
+export interface Employee {
+  id: string;
+  userId: string;
+  name: string;
+  role?: string;
+  monthlySalary: number;
+  monthlyHours: number;
+  hourlyRate: number;
+  active: boolean;
+  notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface EmployeeFormData {
+  name: string;
+  role?: string;
+  monthlySalary: number;
+  monthlyHours: number;
+  notes?: string;
+  active?: boolean;
+}
+
 // ========== TIPOS DE INGREDIENTES ==========
 export interface Ingredient {
   id: string;
@@ -81,6 +105,11 @@ export interface Recipe {
   isActive: boolean; // Se a receita está ativa no cardápio
   isFavorite: boolean; // Se é uma receita favorita do usuário
 
+  // Atribuição de funcionário
+  assignedEmployeeId?: string;
+  assignedEmployeeName?: string;
+  assignedEmployeeHourlyRate?: number;
+
   // Dados opcionais
   imageUrl?: string; // URL da imagem da receita
   nutrition?: {
@@ -102,6 +131,7 @@ export interface Recipe {
 export interface FirestoreCollections {
   users: UserProfile;
   recipes: Recipe;
+  employees: Employee;
 }
 
 // ========== TIPOS PARA FORMULÁRIOS ==========
@@ -119,6 +149,9 @@ export interface RecipeFormData {
   marginPercentage: number;
   laborCostPerHour?: number;
   overheadPercentage?: number;
+  assignedEmployeeId?: string;
+  assignedEmployeeName?: string;
+  assignedEmployeeHourlyRate?: number;
 }
 
 // ========== TIPOS PARA ESTATÍSTICAS ==========

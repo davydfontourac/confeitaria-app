@@ -26,8 +26,9 @@ import ProgressBar from '../components/ProgressBar';
 import ConfirmModal from '../components/ConfirmModal';
 import { useAuth } from '../hooks/useAuth';
 import { useSEO } from '../hooks/useSEO';
-import type { RecipeFormData, RecipeCategory } from '../types/firestore';
+import type { RecipeFormData, RecipeCategory, Employee } from '../types/firestore';
 import { RECIPE_CATEGORIES } from '../types/firestore';
+import { getEmployees } from '../services/firestore';
 
 const NovaReceita = () => {
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ const NovaReceita = () => {
   const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
   const [showDraftsModal, setShowDraftsModal] = useState(false);
   const [showClearFormModal, setShowClearFormModal] = useState(false);
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
   // Função para garantir que o usuário tenha um perfil
   const ensureUserProfile = useCallback(async () => {
@@ -151,7 +153,18 @@ const NovaReceita = () => {
       }
     };
 
+    // Carregar funcionários
+    const loadEmployees = async () => {
+      try {
+        const employeesList = await getEmployees();
+        setEmployees(employeesList.filter(emp => emp.active));
+      } catch (error) {
+        console.error('Erro ao carregar funcionários:', error);
+      }
+    };
+
     loadIngredientSuggestions();
+    loadEmployees();
   }, [ensureUserProfile]);
 
   // Funções de cálculo refinadas
@@ -703,6 +716,52 @@ const NovaReceita = () => {
                   <option value="médio">🟡 Médio</option>
                   <option value="difícil">🔴 Difícil</option>
                 </select>
+              </div>
+
+              {/* Funcionário Responsável */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  👤 Funcionário Responsável
+                  <span className="text-gray-400 ml-1">(opcional)</span>
+                </label>
+                <select
+                  value={formData.assignedEmployeeId || ''}
+                  onChange={(e) => {
+                    const selectedId = e.target.value;
+                    if (!selectedId) {
+                      setFormData({
+                        ...formData,
+                        assignedEmployeeId: undefined,
+                        assignedEmployeeName: undefined,
+                        assignedEmployeeHourlyRate: undefined,
+                      });
+                    } else {
+                      const selectedEmployee = employees.find(emp => emp.id === selectedId);
+                      setFormData({
+                        ...formData,
+                        assignedEmployeeId: selectedId,
+                        assignedEmployeeName: selectedEmployee?.name,
+                        assignedEmployeeHourlyRate: selectedEmployee?.hourlyRate,
+                      });
+                    }
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                >
+                  <option value="">Selecione um funcionário</option>
+                  {employees.map((emp) => (
+                    <option key={emp.id} value={emp.id}>
+                      {emp.name} - R$ {emp.hourlyRate.toFixed(2)}/hora
+                    </option>
+                  ))}
+                </select>
+                {employees.length === 0 && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Nenhum funcionário ativo cadastrado.{' '}
+                    <a href="/funcionarios" className="text-blue-600 hover:underline">
+                      Cadastre agora
+                    </a>
+                  </p>
+                )}
               </div>
 
               {/* Tags */}

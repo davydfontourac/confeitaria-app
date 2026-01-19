@@ -41,9 +41,17 @@ const Header = () => {
             </Link>
             <Link
               to="/nova-receita"
-              className="bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-medium btn-animated"
+              className="text-gray-600 hover:text-green-600 font-medium transition-colors duration-200"
             >
               Nova Receita
+            </Link>
+            <Link
+              to="/funcionarios"
+              className="text-gray-600 hover:text-teal-600 font-medium transition-colors duration-200 flex items-center space-x-1"
+              title="Gerenciamento de Funcionários"
+            >
+              <span>👥</span>
+              <span>Funcionários</span>
             </Link>
 
             {isAdmin && (
