@@ -12,7 +12,7 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   const { currentUser, loading } = useAuth();
   const isAdmin = useIsAdmin();
 
-  if (loading) {
+  if (loading || isAdmin === undefined) {
     return <LoadingSpinner />;
   }
 
@@ -20,7 +20,7 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (!isAdmin) {
+  if (isAdmin === false) {
     return <Navigate to="/dashboard" replace />;
   }
 
