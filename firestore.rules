@@ -1,9 +1,15 @@
 // Regras de Segurança do Firestore - Confeitaria App (PRODUÇÃO)
 // Regras robustas com validações completas para ambiente de produção
+// Admin: validado via custom claim 'admin' (set via Firebase Admin SDK)
 
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // ========== FUNÇÃO DE VALIDAÇÃO DE ADMIN ==========
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
     
     // ========== REGRAS PARA USUÁRIOS ==========
     match /users/{userId} {
@@ -236,6 +242,16 @@ service cloud.firestore {
     // Validar quotas de rascunhos (máximo 50 por usuário)
     function validateDraftQuotas(userId) {
       return true; // Por enquanto, permitir sem limite específico
+    }
+    
+    // ========== REGRAS PARA OPERAÇÕES DE ADMIN ==========
+    // Coleção protegida para operações administrativas (testes, debug, etc)
+    match /adminOperations/{operationId} {
+      // Somente admin pode criar, ler e deletar
+      allow read, create, delete: if isAdmin();
+      
+      // Admin pode atualizar operações
+      allow update: if isAdmin();
     }
   }
 }
