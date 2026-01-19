@@ -366,11 +366,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Status do Desenvolvimento - apenas admin */}
-=======
-      {/* Status do Desenvolvimento - Apenas para Admin */}
->>>>>>> feature/admin-separation
       <AdminOnly>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
           <div className="flex items-start space-x-3">
@@ -388,13 +384,8 @@ const Dashboard = () => {
                 <li>• ✅ Roteamento e layout (Concluído)</li>
                 <li>• ✅ Dashboard base (Concluído)</li>
                 <li>• ✅ Estrutura Firestore (Concluído)</li>
-<<<<<<< HEAD
-                <li>• ⏳ Formulário dinâmico de receitas (Próximo)</li>
-                <li>• ⏳ Sistema de cálculos automáticos</li>
-=======
                 <li>• ✅ Formulário dinâmico de receitas (Concluído)</li>
                 <li>• ✅ Sistema de cálculos automáticos (Concluído)</li>
->>>>>>> feature/admin-separation
               </ul>
             </div>
           </div>
