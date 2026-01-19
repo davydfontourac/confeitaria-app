@@ -53,6 +53,10 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/feedback" element={<FeedbackPage />} />
 
+<<<<<<< HEAD
+=======
+          {/* Rotas de Admin (protegidas) */}
+>>>>>>> feature/admin-separation
           <Route
             path="/admin/feedback"
             element={
@@ -115,6 +119,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* Rotas de desenvolvimento/testes (apenas admin) */}
           <Route
             path="/firestore-test"
             element={

@@ -46,6 +46,10 @@ const Header = () => {
               Nova Receita
             </Link>
 
+<<<<<<< HEAD
+=======
+            {/* Admin Links */}
+>>>>>>> feature/admin-separation
             {isAdmin && (
               <>
                 <Link
