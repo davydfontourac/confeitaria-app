@@ -23,6 +23,7 @@ const Login = () => {
     password: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [showPassword, setShowPassword] = useState(false);
 
   // SEO para a página de Login
   useSEO({
@@ -159,20 +160,30 @@ const Login = () => {
                 >
                   Senha
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 text-gray-900 placeholder-gray-400 ${
-                    errors.password
-                      ? 'border-red-400 bg-red-50'
-                      : 'border-gray-200 hover:border-gray-300 focus:bg-white'
-                  }`}
-                  placeholder="••••••••"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    autoComplete="current-password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`w-full px-4 py-3 pr-12 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 text-gray-900 placeholder-gray-400 ${
+                      errors.password
+                        ? 'border-red-400 bg-red-50'
+                        : 'border-gray-200 hover:border-gray-300 focus:bg-white'
+                    }`}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    title={showPassword ? 'Esconder senha' : 'Mostrar senha'}
+                  >
+                    {showPassword ? '👁️' : '👁️‍🗨️'}
+                  </button>
+                </div>
                 {errors.password && (
                   <p className="mt-2 text-sm text-red-600 flex items-center">
                     <span className="mr-1">⚠️</span>
