@@ -17,6 +17,35 @@ interface FormErrors {
   submit?: string;
 }
 
+// Validações
+const validateEmail = (email: string): string | undefined => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email) return 'Email é obrigatório';
+  if (!emailRegex.test(email)) return 'Email inválido';
+  return undefined;
+};
+
+const validatePassword = (password: string): string | undefined => {
+  if (!password) return 'Senha é obrigatória';
+  if (password.length < 6) return 'Senha deve ter pelo menos 6 caracteres';
+  return undefined;
+};
+
+const validateName = (name: string): string | undefined => {
+  if (!name) return 'Nome é obrigatório';
+  if (name.trim().length < 3) return 'Nome deve ter pelo menos 3 caracteres';
+  return undefined;
+};
+
+const validateConfirmPassword = (
+  password: string,
+  confirmPassword: string
+): string | undefined => {
+  if (!confirmPassword) return 'Confirmação de senha é obrigatória';
+  if (password !== confirmPassword) return 'As senhas não conferem';
+  return undefined;
+};
+
 const Register = () => {
   const navigate = useNavigate();
   const { register, currentUser } = useAuth();
@@ -52,6 +81,32 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar formulário
+    const newErrors: FormErrors = {};
+
+    const nameError = validateName(formData.name);
+    if (nameError) newErrors.name = nameError;
+
+    const emailError = validateEmail(formData.email);
+    if (emailError) newErrors.email = emailError;
+
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) newErrors.password = passwordError;
+
+    const confirmPasswordError = validateConfirmPassword(
+      formData.password,
+      formData.confirmPassword
+    );
+    if (confirmPasswordError) newErrors.confirmPassword = confirmPasswordError;
+
+    // Se houver erros, mostrar e retornar
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
     setIsLoading(true);
     try {
       await register(formData.email, formData.password, formData.name);
@@ -93,6 +148,13 @@ const Register = () => {
           </div>
           <div className="px-8 py-8">
             <form className="space-y-6" onSubmit={handleSubmit}>
+              {/* Erro geral */}
+              {errors.submit && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                  {errors.submit}
+                </div>
+              )}
+
               <div>
                 <label
                   htmlFor="name"
@@ -106,10 +168,16 @@ const Register = () => {
                   type="text"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 border-gray-200 hover:border-gray-300"
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 ${
+                    errors.name ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'
+                  }`}
                   placeholder="Seu nome completo"
                 />
+                {errors.name && (
+                  <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+                )}
               </div>
+
               <div>
                 <label
                   htmlFor="email"
@@ -123,10 +191,16 @@ const Register = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 border-gray-200 hover:border-gray-300"
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 ${
+                    errors.email ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'
+                  }`}
                   placeholder="seu@email.com"
                 />
+                {errors.email && (
+                  <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+                )}
               </div>
+
               <div>
                 <label
                   htmlFor="password"
@@ -140,10 +214,19 @@ const Register = () => {
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 border-gray-200 hover:border-gray-300"
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 ${
+                    errors.password ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'
+                  }`}
                   placeholder="••••••••"
                 />
+                {errors.password && (
+                  <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+                )}
+                <p className="text-gray-500 text-xs mt-1">
+                  Mínimo 6 caracteres
+                </p>
               </div>
+
               <div>
                 <label
                   htmlFor="confirmPassword"
@@ -157,9 +240,14 @@ const Register = () => {
                   type="password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 border-gray-200 hover:border-gray-300"
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 ${
+                    errors.confirmPassword ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'
+                  }`}
                   placeholder="••••••••"
                 />
+                {errors.confirmPassword && (
+                  <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+                )}
               </div>
               <button
                 type="submit"
