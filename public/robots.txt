@@ -1,0 +1,26 @@
+# robots.txt para Confeitaria App
+
+User-agent: *
+Allow: /
+
+# Permitir acesso a todos os recursos importantes
+Allow: /assets/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Bloquear acesso a arquivos sensíveis (se houver)
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://confeitaria-gqa4nenbs-davydfontouracs-projects.vercel.app/sitemap.xml
+
+# Crawl-delay para ser respeitoso com os bots
+Crawl-delay: 1

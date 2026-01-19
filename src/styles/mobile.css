@@ -1,0 +1,342 @@
+/* Estilos específicos para otimização móvel */
+
+/* Classes auxiliares para dispositivos móveis */
+.mobile-portrait {
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height - mais preciso em móveis */
+}
+
+.mobile-landscape {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Melhorias de toque e interação */
+.touch-target {
+  min-height: 44px; /* Tamanho mínimo recomendado pela Apple */
+  min-width: 44px;
+}
+
+.touch-friendly {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* Inputs otimizados para móvel */
+.mobile-input {
+  font-size: 16px; /* Previne zoom no iOS */
+  line-height: 1.5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.mobile-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+}
+
+/* Botões otimizados para móvel */
+.mobile-button {
+  min-height: 44px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.mobile-button:active {
+  transform: scale(0.98);
+}
+
+.mobile-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Melhorias de scroll */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.scroll-snap-container {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-snap-item {
+  scroll-snap-align: start;
+}
+
+/* Cards e containers móveis */
+.mobile-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin-bottom: 16px;
+}
+
+.mobile-card:active {
+  transform: scale(0.99);
+  transition: transform 0.1s ease;
+}
+
+/* Navegação móvel */
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index: 50;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-item.active {
+  color: #4f46e5;
+}
+
+.mobile-nav-item:active {
+  transform: scale(0.95);
+}
+
+/* Headers móveis */
+.mobile-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 16px;
+  z-index: 40;
+}
+
+/* Modais móveis */
+.mobile-modal {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 50;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+/* Formulários móveis */
+.mobile-form {
+  padding: 16px;
+  space-y: 20px;
+}
+
+.mobile-form-group {
+  margin-bottom: 20px;
+}
+
+.mobile-form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+/* Listas móveis */
+.mobile-list {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mobile-list-item {
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-list-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-list-item:active {
+  background-color: #f9fafb;
+}
+
+/* Safe area support para notch/home indicator */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Otimizações específicas para iOS */
+@supports (-webkit-touch-callout: none) {
+  .ios-input {
+    font-size: 16px; /* Previne zoom automático */
+  }
+
+  .ios-button {
+    -webkit-appearance: none;
+    border-radius: 8px;
+  }
+}
+
+/* Otimizações para Android */
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (max-device-width: 768px) {
+  .android-input {
+    line-height: 1.6;
+  }
+}
+
+/* Orientação específica */
+@media screen and (orientation: portrait) {
+  .portrait-only {
+    display: block;
+  }
+
+  .landscape-only {
+    display: none;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .portrait-only {
+    display: none;
+  }
+
+  .landscape-only {
+    display: block;
+  }
+}
+
+/* Responsividade melhorada */
+@media (max-width: 640px) {
+  .mobile-responsive {
+    padding: 16px;
+  }
+
+  .mobile-text-sm {
+    font-size: 14px;
+  }
+
+  .mobile-text-base {
+    font-size: 16px;
+  }
+
+  .mobile-text-lg {
+    font-size: 18px;
+  }
+
+  .mobile-spacing-tight {
+    gap: 8px;
+  }
+
+  .mobile-spacing-normal {
+    gap: 16px;
+  }
+
+  .mobile-spacing-wide {
+    gap: 24px;
+  }
+}
+
+/* Estados de loading móvel */
+.mobile-loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f4f6;
+  border-radius: 50%;
+  border-top-color: #4f46e5;
+  animation: mobile-spin 1s ease-in-out infinite;
+}
+
+@keyframes mobile-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Feedback haptic visual */
+.haptic-feedback:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+/* Otimizações de performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+.prevent-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Melhorias de contraste e legibilidade */
+@media (prefers-contrast: high) {
+  .mobile-button {
+    border: 2px solid currentColor;
+  }
+
+  .mobile-input {
+    border: 2px solid #374151;
+  }
+}
+
+/* Redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .mobile-button:active,
+  .mobile-card:active,
+  .haptic-feedback:active {
+    transform: none;
+  }
+}
